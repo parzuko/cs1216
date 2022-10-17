@@ -16,7 +16,7 @@
 *.cb
 *.cb2
 .*.lb
-
+*.jar
 ## Intermediate documents:
 *.dvi
 *.xdv
