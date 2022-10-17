@@ -1,0 +1,17 @@
+.data
+	message: .asciiz "Hi everybody \n. My name is Jeff.\n"
+.text	
+	main:
+		jal displayMessage
+		
+		
+	# tell main to stop | return 0
+	li, $v0, 10
+	syscall
+			
+	displayMessage:
+		li $v0, 4
+		la $a0, message
+		syscall 
+
+		jr $ra # return 0
