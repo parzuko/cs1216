@@ -1,0 +1,205 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,textcomp,amssymb,geometry,graphicx,enumerate}
+\usepackage{algorithm} % Boxes/formatting around algorithms
+\usepackage[noend]{algpseudocode} % Algorithms
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\def\Name{Jivansh Sharma}  % Your name
+\def\SID{1020211193}  % Your student ID number
+%\def\Login{PUT SOMETHING HERE} % Your login (your class account, cs170-xy)
+\def\Homework{4} % Number of Homework
+\def\Session{Monsoon 2022}
+
+
+\title{CS1216 - Monsoon 2022 - Homework \Homework}
+\author{\Name 
+\\UG 24 \SID
+%\texttt{\Login}
+}
+\markboth{CS1216\Session\  Homework \Homework\ \Name}{CS1216--\Session\ Homework \Homework\ \Name %\texttt{\Login}
+}
+\pagestyle{myheadings}
+\date{22/10/2022}
+
+\newenvironment{qparts}{\begin{enumerate}[{(}a{)}]}{\end{enumerate}}
+\def\endproofmark{$\Box$}
+\newenvironment{proof}{\par{\bf Proof}:}{\endproofmark\smallskip}
+
+\textheight=9in
+\textwidth=6.5in
+\topmargin=-.75in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+
+
+\begin{document}
+\maketitle
+
+Collaborators: None
+
+\section*{1. Show how the value 0xabcdef12 would be arranged in memory of a little-endian and a big-endian machine. Assume the data is stored starting at address 0.}
+
+Big Endian Machines store the most significant byte at the lowest address. The first byte read goes in the big end of the register.
+\\ So, the value 0xabcdef12 would be stored as
+
+\begin{verbatim}
+    most significant bit | ab   cd  ef  12 | least significant bit
+\end{verbatim}
+
+Little Endian Machines store the least significant byte at the lowest address. The first byte read goes in the least significant bit of register.
+\\ So, the value 0xabcdef12 would be stored as
+
+\begin{verbatim}
+    most significant bit | 12   ef  cd  ab | least significant bit
+\end{verbatim}
+
+\newpage
+
+\section*{3.The IEEE 754 2008 version contains a half precision format that is only 16 bits wide. The leftmost bit is still the sign bit, the exponent is 5 bits wide and has a bias of 15, and the mantissa is 10 bits long. A hidden 1 is assumed. Write down the bit pattern to represent -1.5635 x 10-2 assuming a version of this format, which uses an excess-16 format to store the exponent. Comment on how the range and accuracy of this 16-bit floating point format compares to the single precision IEEE 754 standard.}
+
+% The representation of -1.5625 * 10^-1 is 1 01100 0100000000
+
+% Explanation:
+
+% A bit to represent -1.5625 * 10^-1
+
+% Convert -1.5626 base 10 to base 2.
+
+% It gives -0.00101
+
+% First, we normalise the above number representation.
+
+% If 1 number is assumed to be hidden
+
+% This is given as;
+
+% -0.00101 base 2
+
+% = -1.01 * 2^-3 -- base 2
+
+% The sign, exponent and fraction are as follows;
+
+% The left most bit is still the sign bit, so we have;
+
+% Sign: 1 ---- Negative Number
+
+% The exponent is 5 bits wide and has a bias of 15, so we have
+
+% Exponent: 12 ----. (-3 = 12 - 15; 15 being bias)
+
+% The mantissa is 10 bits long.
+
+% Fraction; 1.01
+
+% So, the representation of -1.5625 * 10^-1 is as follows
+
+% 1 01100 0100000000
+
+% Comment:
+
+% Since, exponent is much shorter; the range is also shorter than the single precision IEEE754 standard.
+
+% And also, the fraction is also shorter; so, the half precision standard is not accurate.
+
+\newpage
+\section*{4. Let us assume that the program counter (PC), while executing a program is currently set to 0x2000 0000. Explain your answer.}
+
+We know, PC is set to 0x20000000. Converting this hex values to binary, we get \texttt{0010 0000 0000 0000 0000 0000 0000 0000}.
+\begin{qparts}
+    \item Is it possible to use the jump (j) MIPS assembly instruction to set the PC to the address to a different value, say 0x5000 0000?
+
+    We know the jump instruction is of the form \texttt{j target}.
+    The instruction takes a 6-bit OPCODE and a 26-bit target address / offset.
+
+    In order to convert the 26-bit target address to a 32-bit address, we need to append the target address by 2 bits to the left. Then 4 most significant bits of PC are added the right side of the target address. This forms a 32-bit address.
+
+    We already know the MSB of 0x20000000 would be \texttt{0010}, making the target address of the from 0x2XXXXXXX, making it impossible for us to jump to 0x5XXXXXXX.
+
+    So, it is not possible to use the jump instruction to set the PC from 0x20000000 to 0x50000000.
+
+    \item Is it possible to use the branch (beq) MIPS assembly instruction to set the PC to the address to a different value, say 0x5000 0000?
+    
+    We know the beq instruction is of the form \texttt{beq rs, rt, offset}.
+    The instruction takes a 6-bit OPCODE, 5-bit rs, 5-bit rt and a 16-bit offset.
+
+    The target address 0x50000000 is 32 bits long, while permitted offset is 16 bits long. 
+    Because it can not be converted to fit in 16 bits, it is not possible to use the beq instruction to set the PC from 0x20000000 to 0x50000000.
+
+\end{qparts}
+
+\newpage
+\section*{5.Write down the binary representation of the decimal number 64.35 assuming the IEEE 754 single precision format.}
+
+64.35 is represented as 0x40.58 in IEEE 754 single precision format.
+
+Whole number portion of 64.35 is 64. And, decimal portion is 0.35.\\
+
+%  Create a table with 3 columns in 4 rows
+\begin{tabular}{|c|c|c|}
+    \hline
+    \textbf{Whole Number Division} & \textbf{Result} & \textbf{Remainder} \\
+    \hline
+    64/2 & 32 & 0 \\
+    32/2 & 16 & 0 \\
+    16/2 & 8 & 0 \\
+    8/2 & 4 & 0 \\
+    4/2 & 2 & 0 \\
+    2/2 & 1 & 0 \\
+    1/2 & 0 & 1 \\
+    \hline
+\end{tabular}
+
+So, the binary representation of 64 is 1000000.
+
+Converting the Decimal portion to binary, we get.
+
+\begin{tabular}{|c|c|c|}
+    \hline
+    \textbf{Decimal Number Multiplication} & \textbf{Result} & \textbf{Number Infront of Decimal} \\
+    \hline
+    0.35 * 2 & 0.7 & 0 \\
+    0.7 * 2 & 1.4 & 1 \\
+    0.4 * 2 & 0.8 & 0 \\
+    0.8 * 2 & 1.6 & 1 \\
+    0.6 * 2 & 1.2 & 1 \\
+    0.2 * 2 & 0.4 & 0 \\
+    0.4 * 2 & 0.8 & 0 \\
+    0.8 * 2 & 1.6 & 1 \\
+    \hline
+\end{tabular}
+
+So, the binary representation of 0.35 is $0.010\overline{1100}$ (approx).
+
+
+Now, combining the whole number and decimal portion, we get $1000000.010\overline{1100}$.
+
+Converting to base 2 scientific notation, we get $1.000000010\overline{1100} * 2^{6}$.
+
+So, sign = 0
+exponent = 6
+mantissa = $0.010\overline{1100}$
+
+1st bit sign = 0
+
+2nd to 9th bit exponent (8 Bits) = 6 + 127 = 133 = $(10000101)_2$
+
+10th to 32nd bit mantissa (23 Bits) = $0.010\overline{1100}$
+
+\newpage
+\section*{6.Using the IEEE 754 floating point format, write down the bit pattern that would represent -1/4. Now, add -1/4 to itself 4 times. Do you get the equivalent representation for -1.0? Why or why not? Show your work}
+
+% -0.25 is
+% 1 0111110100000000000000000000000
+
+% Added 4 times
+%  01011111010000000000000000000000000
+
+
+\end{document}
+
