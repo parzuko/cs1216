@@ -61,51 +61,34 @@ Little Endian Machines store the least significant byte at the lowest address. T
 
 \newpage
 
+\section*{2. Provide a minimal set of MIPS instructions that may be used to implement the following pseudoinstruction}
+
+\begin{verbatim}
+    not $s0, $s2      // bit-wise invert
+\end{verbatim}
+
+\begin{verbatim}
+    # we know that not (s2) is to be stored in s0
+    nor $s0, $s2, $zero # $s0 = not ($s2)
+\end{verbatim}
+
+\newpage
 \section*{3.The IEEE 754 2008 version contains a half precision format that is only 16 bits wide. The leftmost bit is still the sign bit, the exponent is 5 bits wide and has a bias of 15, and the mantissa is 10 bits long. A hidden 1 is assumed. Write down the bit pattern to represent -1.5635 x 10-2 assuming a version of this format, which uses an excess-16 format to store the exponent. Comment on how the range and accuracy of this 16-bit floating point format compares to the single precision IEEE 754 standard.}
 
-% The representation of -1.5625 * 10^-1 is 1 01100 0100000000
 
-% Explanation:
+Converting to base 2 scientific notation, we get $-1.00000000001010011111001 * 2^-6$.
 
-% A bit to represent -1.5625 * 10^-1
+So, sign = 1 (negative number, 1 Bit) 
+\\exponent = 9 (-6 = 9 - 15; 15 being bias, 5 Bits)
+\\mantissa = 0.00000000001010011111001 (10 Bits)
 
-% Convert -1.5626 base 10 to base 2.
+Therfore the 16 Bit representation is as follows:
+\begin{verbatim}
+    1    10010   00000000001
+    Sign Exponent Mantissa
+\end{verbatim}
 
-% It gives -0.00101
-
-% First, we normalise the above number representation.
-
-% If 1 number is assumed to be hidden
-
-% This is given as;
-
-% -0.00101 base 2
-
-% = -1.01 * 2^-3 -- base 2
-
-% The sign, exponent and fraction are as follows;
-
-% The left most bit is still the sign bit, so we have;
-
-% Sign: 1 ---- Negative Number
-
-% The exponent is 5 bits wide and has a bias of 15, so we have
-
-% Exponent: 12 ----. (-3 = 12 - 15; 15 being bias)
-
-% The mantissa is 10 bits long.
-
-% Fraction; 1.01
-
-% So, the representation of -1.5625 * 10^-1 is as follows
-
-% 1 01100 0100000000
-
-% Comment:
-
-% Since, exponent is much shorter; the range is also shorter than the single precision IEEE754 standard.
-
-% And also, the fraction is also shorter; so, the half precision standard is not accurate.
+The range and accuracy of this 16-bit floating point format are less than the single precision IEEE 754 standard. The range is less because the exponent is only 5 bits long as compared to 8 bits in the single precision IEEE 754 standard. The accuracy is less because the mantissa is only 10 bits long as compared to 23 bits in the single precision IEEE 754 standard.
 
 \newpage
 \section*{4. Let us assume that the program counter (PC), while executing a program is currently set to 0x2000 0000. Explain your answer.}
@@ -182,14 +165,23 @@ Now, combining the whole number and decimal portion, we get $1000000.010\overlin
 Converting to base 2 scientific notation, we get $1.000000010\overline{1100} * 2^{6}$.
 
 So, sign = 0
+
 exponent = 6
+
 mantissa = $0.010\overline{1100}$
+\vspace*{12pt}
 
 1st bit sign = 0
 
 2nd to 9th bit exponent (8 Bits) = 6 + 127 = 133 = $(10000101)_2$
 
 10th to 32nd bit mantissa (23 Bits) = $0.010\overline{1100}$
+
+So, the 32 Bit representation is as follows:
+\begin{verbatim}
+    0    10000101   01011001100110011001101
+    Sign Exponent   Mantissa
+\end{verbatim}
 
 \newpage
 \section*{6.Using the IEEE 754 floating point format, write down the bit pattern that would represent -1/4. Now, add -1/4 to itself 4 times. Do you get the equivalent representation for -1.0? Why or why not? Show your work}
