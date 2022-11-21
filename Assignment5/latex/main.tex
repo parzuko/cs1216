@@ -1,0 +1,250 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,textcomp,amssymb,geometry,graphicx,enumerate}
+\usepackage{algorithm} % Boxes/formatting around algorithms
+\usepackage[noend]{algpseudocode} % Algorithms
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+\def\Name{Jivansh Sharma}  % Your name
+\def\SID{1020211193}  % Your student ID number
+%\def\Login{PUT SOMETHING HERE} % Your login (your class account, cs170-xy)
+\def\Homework{5} % Number of Homework
+\def\Session{Monsoon 2022}
+
+
+\title{CS1216 - Monsoon 2022 - Homework \Homework}
+\author{\Name 
+\\UG 24 \SID
+%\texttt{\Login}
+}
+\markboth{CS1216\Session\  Homework \Homework\ \Name}{CS1216--\Session\ Homework \Homework\ \Name %\texttt{\Login}
+}
+\pagestyle{myheadings}
+\date{21/11/2022}
+
+\newenvironment{qparts}{\begin{enumerate}[{(}a{)}]}{\end{enumerate}}
+\def\endproofmark{$\Box$}
+\newenvironment{proof}{\par{\bf Proof}:}{\endproofmark\smallskip}
+
+\textheight=9in
+\textwidth=6.5in
+\topmargin=-.75in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+
+
+\begin{document}
+\maketitle
+
+Collaborators: None
+
+\section*{1. Consider an in-order 5-stage pipeline similar to the one discussed in class. First assume that the pipeline does not support bypassing (forwarding). What are the stall cycles introduced between the following pairs of back-to-back instructions? Then, solve the same problem while assuming support for bypassing. Show your work clearly i.e., show how each instruction goes through the 5 stages, indicate the point of production and point of consumption, show where consuming instruction is held back when there are stalls. Recall that a register read is performed in the second half of the D/R stage and a register write is performed in the first half of the RW stage}
+
+
+\begin{verbatim}
+A)  lw $5, 64($7) 
+    add $4, $5, $3
+\end{verbatim}
+\texttt{Without Forwarding}
+\\Cycles: 1   2   3   4   5   6   7
+
+\begin{verbatim}
+lw would go in the following stages:
+IF D/R ALU DM  RW
+
+and add would go in the following stages:
+IF STALL STALL D/R ALU DM RW
+\end{verbatim}
+The add instruction consumes 2 stall cycles in D/R stage as it waits for lw to write to \$5.  lw finishes writing in first half of cycle 5 and add picks it up from the second half.\\ \\
+\texttt{With Forwarding}
+\\Cycles: 1   2   3   4   5   6   7
+
+\begin{verbatim}
+lw would go in the following stages:
+IF D/R ALU DM  RW
+
+and add would go in the following stages:
+IF STALL D/R ALU DM RW
+\end{verbatim}
+In this case, at the 4th cycle the address is at the ALU stage and loads it into the DM stage for add. Then in the 5th clock cycle, the operand is available.
+
+
+\begin{verbatim}
+B)  lw $1, 32($2) 
+    sw $1, 128($5)
+\end{verbatim}
+\texttt{Without Forwarding}
+\\Cycles: 1   2   3   4   5   6   7   8
+
+\begin{verbatim}
+lw would go in the following stages:
+IF D/R ALU DM  RW
+    
+and sw would go in the following stages:
+IF STALL STALL D/R ALU DM RW
+\end{verbatim}
+The lw instruction consumes 2 stall cycles in D/R stage as it waits for lw to write to \$1.  lw finishes writing in first half of cycle 1 and add picks it up from the second half.\\ \\
+\texttt{With Forwarding}
+\\Cycles: 1   2   3   4   5   6   7
+
+\begin{verbatim}
+lw would go in the following stages:
+IF D/R ALU DM  RW
+
+and sw would go in the following stages:
+IF STALL D/R ALU DM RW
+\end{verbatim}
+In this case, at the 4th cycle the address is at the ALU stage and loads it into the DM stage for sw.
+
+
+\begin{verbatim}
+B)  lw $1, 32($2) 
+    sw $1, 128($5)
+\end{verbatim}
+\texttt{Without Forwarding}
+\\Cycles: 1   2   3   4   5   6   7   8
+
+\begin{verbatim}
+lw would go in the following stages:
+IF D/R ALU DM  RW
+    
+and sw would go in the following stages:
+IF STALL STALL D/R ALU DM RW
+\end{verbatim}
+The lw instruction consumes 2 stall cycles in D/R stage as it waits for lw to write to \$1.  lw finishes writing in first half of cycle 5 and add picks it up from the second half.\\ \\
+\texttt{With Forwarding}
+\\Cycles: 1   2   3   4   5   6   7
+
+\begin{verbatim}
+lw would go in the following stages:
+IF D/R ALU DM  RW
+
+and sw would go in the following stages:
+IF STALL D/R ALU DM RW
+\end{verbatim}
+In this case, at the 4th cycle the address is at the ALU stage and loads it into the DM stage for sw.
+
+
+\begin{verbatim}
+C)  add $1, $2, $3
+    sub $4, $2, $1
+\end{verbatim}
+\texttt{Without Forwarding}
+\\Cycles: 1   2   3   4   5   6   7   8
+
+\begin{verbatim}
+add would go in the following stages:
+IF D/R ALU DM  RW
+    
+and sub would go in the following stages:
+IF STALL STALL D/R ALU DM RW
+\end{verbatim}
+The sub instruction consumes 2 stall cycles in D/R stage as it waits for add to write to \$1. add finishes writing in first half of cycle 5 and sub picks it up from the second half.\\ \\
+\texttt{With Forwarding}
+\\Cycles: 1   2   3   4   5   6
+
+\begin{verbatim}
+add would go in the following stages:
+IF D/R ALU DM  RW
+    
+and sub would go in the following stages:
+IF D/R ALU DM RW
+\end{verbatim}
+There is no stalling now, the shared value is computed in ALU stage of add instruction and passed to sub in cycle 4.
+
+\newpage
+
+\section*{2. Consider an in-order pipeline that has the same stages as a 5 stage pipeline discussed in class. However, unlike the 5-stage pipeline discussed in class, a register read in this design takes an entire cycle and a register write takes an entire cycle (and not a half cycle). \\
+Use the same sequence of instructions from Question 1, and show how these sequences proceed through the pipeline. Indicate the number of stall cycles that are experienced by each sequence. Show your work for both versions of the pipeline: one without bypassing, and another one with bypassing. }
+
+
+\begin{verbatim}
+A)  lw $5, 64($7) 
+    add $4, $5, $3
+\end{verbatim}
+\texttt{Without Forwarding}
+\\Cycles: 1   2   3   4   5   6   7  8  9
+
+\begin{verbatim}
+lw would go in the following stages:
+IF D/R ALU DM  RW
+
+and add would go in the following stages:
+IF STALL STALL STALL D/R ALU DM RW
+\end{verbatim}
+The add instruction consumes 3 stall cycles in D/R stage as it waits for lw to write to \$5. This now takes an additional cycle as compared to q1 hence the increase to 3 cycles. \\ \\
+\texttt{With Forwarding}
+\\Cycles: 1   2   3   4   5   6   7
+
+\begin{verbatim}
+lw would go in the following stages:
+IF D/R ALU DM  RW
+
+and add would go in the following stages:
+IF STALL D/R ALU DM RW
+\end{verbatim}
+In this case, at the 4th cycle the address is at the ALU stage and loads it into the DM stage for add. Then in the 5th clock cycle, the operand is available.
+
+\begin{verbatim}
+B)  lw $1, 32($2) 
+    sw $1, 128($5)
+\end{verbatim}
+\texttt{Without Forwarding}
+\\Cycles: 1   2   3   4   5   6   7   8  9
+
+\begin{verbatim}
+lw would go in the following stages:
+IF D/R ALU DM  RW
+    
+and sw would go in the following stages:
+IF STALL STALL STALL D/R ALU DM RW
+\end{verbatim}
+The lw instruction consumes 3 stall cycles in D/R stage as it waits for lw to write to \$1.  lw finishes writing in cycle 5 and add sw picks it up from the cycle 6.\\ \\
+\texttt{With Forwarding}
+\\Cycles: 1   2   3   4   5   6   7
+
+\begin{verbatim}
+lw would go in the following stages:
+IF D/R ALU DM  RW
+
+and sw would go in the following stages:
+IF STALL D/R ALU DM RW
+\end{verbatim}
+In this case, at the 4th cycle the address is at the ALU stage and loads it into the DM stage for sw in the 5th cycle.
+
+
+\begin{verbatim}
+C)  add $1, $2, $3
+    sub $4, $2, $1
+\end{verbatim}
+\texttt{Without Forwarding}
+\\Cycles: 1   2   3   4   5   6   7   8  9
+
+\begin{verbatim}
+add would go in the following stages:
+IF D/R ALU DM  RW
+    
+and sub would go in the following stages:
+IF STALL STALL STALL D/R ALU DM RW
+\end{verbatim}
+The sub instruction consumes 3 stall cycles in D/R stage as it waits for add to write to \$1. add finishes writing in cycle 5 and sub picks it up from the cycle 6.\\ \\
+\texttt{With Forwarding}
+\\Cycles: 1   2   3   4   5   6
+
+\begin{verbatim}
+add would go in the following stages:
+IF D/R ALU DM  RW
+    
+and sub would go in the following stages:
+IF D/R ALU DM RW
+\end{verbatim}
+There is no stalling now, the shared value is computed in ALU stage of add instruction (Cycle 3) and passed to sub in cycle 4.
+
+
+\end{document}
+
