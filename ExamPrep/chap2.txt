@@ -1,0 +1,10 @@
+Moore's Law -> The number of transistors on a chip doubles every 18 months.
+
+Amdahl's law -> performance improvements through an enhancement is limited by the fraction of time the enhancement comes into play.
+
+Energy = (Power * Time)
+
+90-10 Rule -> 10% of the programme accounts for 90% of the execution time.
+
+Temporal Locality -> Same data will be used again.
+Spatial Locality -> Nearby data is likely to be used again.
