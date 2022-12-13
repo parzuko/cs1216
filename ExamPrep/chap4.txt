@@ -1,0 +1,62 @@
+Memory Organization
+
+First few bytes belong to code. If 400 instructions and each is 4 bytes, then 400*4 = 1600 bytes. The rest of the memory is for data. The data is organized in the following way:
+
+Global Variablaes and Static Variables are stored in the $gp. Here it would be $gp = 1600
+
+Stack is stored in the $sp. All the local variables are stored in the stack. Variables in use are pused and later popped from stack. When we allocate extra data that is stored in Heap. Heap starts after stack ends.
+
+The stack grows downwards. The heap grows upwards. The heap is allocated by the malloc() function. The stack is allocated by the compiler. The heap is freed by the free() function. The stack is freed by the compiler.
+
+Instruction Formats
+
+R type instructions
+000000 10001 10001 01000 00000 100000
+6 Bits 5 Bits 5 Bits 5 Bits 5 Bits 6 Bits
+OPCODE RS    RT    RD   SHAMT  FUNCT
+ 
+Add Sub Or What = OPCODE
+Source 
+Source
+Destination
+Shift Amount
+Function
+
+I Type Instructions
+001000 10001 10001 0000000000000000
+6 Bits 5 Bits 5 Bits 16 Bits
+OPCODE RS    RT    Immediate
+
+Shift Left = Multiply by 2
+Shift Right = Divide by 2
+
+Control Instructions
+-- Conditional Branches: Jumpt to a label if a condition is true. Some examples are beq, bne, beq, slt
+
+-- Unconditional Branches: Jump to a label unconditionally. Some examples are j, jal, jr. Just jump, no conditions required.
+
+
+Example of loops:
+
+while (save[i] == k) {
+    i += 1;
+}
+
+i and k are in s3, s5
+
+save[0] is in s6
+save[1] is in s6 + 4
+save[2] is in s6 + 8
+
+Loop:
+    sll $t1, $s3, 2 # i * 4
+    add $t1, $t1, $s6 # (i * 4) + save -> save[i]
+    lw $t0, 0($t1) # load save[i] into t0
+    
+    bne $t0, $s5, Exit # if save[i] != k, then exit
+    addi $s3, $s3, 1 # i += 1
+
+    j Loop # jump to loop
+    
+Exit:
+    ------------------------------
