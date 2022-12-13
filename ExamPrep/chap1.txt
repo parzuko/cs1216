@@ -1,0 +1,11 @@
+Clock Cycle Time = 1 / Clock Frequency (in seconds)
+
+CPU Execution Time = (CPU Clock Cycles) * (Clock Cycle Time)
+CPU Clock Cycles = (Number of Instructions) * (Clock Cycles per Instruction)
+
+CPU Execution Time = (Number of Instructions) * (Clock Cycles per Instruction) * (Clock Cycle Time)
+
+Performance = 1 / Execution Time
+Speedup of X over Y = (Execution Time of Y) / (Execution Time of X) = Performance of X / Performance of Y
+
+Performance Improvements = (Speedup of X over Y) - 1
