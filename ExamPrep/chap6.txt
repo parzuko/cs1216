@@ -1,0 +1,24 @@
+Large Data
+
+Immediates are capped to 16 Bit Constants
+
+[A         |         B]
+
+lui $t0, A #first 16 bits set
+ori $t0, $t0, B #last 16 bits set
+
+
+jump can only specify 26 bit addresses
+
+Endian-Ness
+
+Memory: 
+low-address <- 45 7b 87 7f -> high-address
+
+Little Endian -> x86
+highest byte goes into lowest address
+
+Big Endian -> MIPS
+highest byte goes into highest address
+
+RISC vs CISC
