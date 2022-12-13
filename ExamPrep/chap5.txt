@@ -1,0 +1,26 @@
+Lecture 5: Procedure Calls
+
+Stack v
+Heap  ^
+Global 
+Code
+
+Procedures allocated memory = Activation Record
+Start and End of it are called $fp and $sp
+$a0, $a1, $a2, $a3 are used to pass parameters
+$v0, $v1 are used to return values
+$ra is used to return to the caller
+
+to call a procedure:
+-- jal procedure_name
+
+to return from a procedure:
+-- jr $ra
+
+Program Counter is a special register that holds the address of the current instruction to be executed. It tells you where you are in the program. Increments itself by 4.
+
+We must save $ra and other registers using saves are restores.
+This usually comprises $s0 - $s7, $ra, $a0 - $a3
+
+Before all instructions, save using sw $reg, offset($sp)
+After all instructions, restore using lw $reg, offset($sp)
