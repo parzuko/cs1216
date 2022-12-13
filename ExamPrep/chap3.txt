@@ -1,0 +1,32 @@
+MIPS Instruction Set
+
+RISC Architecture
+Reduced Instruction Set Computer
+
+32 bits = 32b == 4 Bytes = 4B -> Each Instruction
+
+When constructing an ISA:
+-- keep hardware simple
+-- keep instruction regular
+
+Register File is in Processor, acts as sractchpad memory.
+
+Register File is a collection of registers. MIPS only has 32 registers, x86 has 8.
+More consume more energy
+Less makes it that we need to swap registers in and out of memory.
+
+Each register is 32 bit wide. These are called words. 32 Bit Architecture. 4 Billion possible values. as 2^32 ~ 4Gigs
+
+Variables are stored from ($s0 - $s7) and temporary variables are stored in ($t0 - $t9).
+
+Data is stored in memory. Memory is accessed through registers. Registers are accessed through instructions.
+Load Word (lw) and Store Word (sw) are used to access memory.
+
+lw $t0, memory-address # get from memory store in register
+sw $t0, memory-address # store in memory from register
+
+
+Each variables are at an offset of 4 from each other. So if we have a variable at 0x1000, the next variable will be at 0x1004.
+
+addi $s0, $zero, 1000
+add $s0, $s0, $zero
