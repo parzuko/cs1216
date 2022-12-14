@@ -1,0 +1,14 @@
+Instr Mem -> Reg File -> ALU -> Data Mem -> Reg Write Back
+
+Number of stages eventually has diminishing returns because there of inter stage dependencies. The more stages you have, the more you have to wait for the previous stage to finish before you can start the next stage. This is why the number of stages is usually 5 or 6.
+Also there is overhead for latches.
+
+5 Stage Pipeline
+IM - Instruction Memory
+RF - Register File
+ALU - Arithmetic Logic Unit
+DM - Data Memory
+WB - Write Back
+
+RF Should be in second half of cycle and WB should in first half of cycle. This removes dependancy overhead incase.
+

@@ -1,0 +1,45 @@
+Floating Point
+
+Binary Scientific Notation
+1.010001 x 2^(-5)
+
+32 Bit Register -> Sign and Magnitude Rep
+
+[1Bit] Sign [---8Bits---] Exponent [----------23---------] Fraction
+
+
+Not more than 8 Bits because 2^(-127) -> 2^128
+Infinite real numbers, no real gain
+
+More Fraction = Higher Precision
+Register Value = (-1)^Sign * 2^(1 + F) * 2^(E)
+
+
+Largest Number = (1 + 1) * 2^(128)
+Smallest Number = (1 + 0) * 2^(-127)
+
+For unsigned numbers we have a bias of 127 so the 
+Register Value = (-1)^Sign * 2^(1 + F) * 2^(E - Bias)
+
+
+Double Precision
+
+[1Bit] Sign [---11Bits---] Exponent [----------52---------] Fraction
+
+
+Example: Convert -0.75 to Single and Double Precision
+
+
+0.75 in binary would be
+0.75 x 2 = 1.5
+0.5 x 2 = 1.0
+
+Answer = 0.11
+
+also = 1.1 x 2^(-1)
+exponent = -1 + 127 = 126
+
+exponent in binary = 01111110
+
+representation 
+1 01111110 100000000000000000000
